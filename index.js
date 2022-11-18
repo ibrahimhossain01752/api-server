@@ -21,7 +21,19 @@ app.get("/", (req, res) => {
 
 client.connect((err) => {
     
+    const usersCollection = client.db("api").collection("users");
 
+    app.get("/users", async (req, res) => {
+        const result = await usersCollection.find({}).toArray();
+        res.send(result);
+      });
+    
+    
+      // single service........................
+     app.get("/users/:id", async (req, res) => {
+      const result = await usersCollection.find({_id: ObjectId(req.params.id)}).toArray();
+      res.send(result);
+     });
  
 
 });
